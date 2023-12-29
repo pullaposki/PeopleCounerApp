@@ -3,21 +3,30 @@
 export class Saver {
     constructor(saveDisplayElementId, saveBtnId, counter) {
         this.saveDisplayElement = document.getElementById(saveDisplayElementId);
-        
-        this.counter = counter;
-        
-        this.previouslySavedValuesQueue = new BondedQueue(3);
-        //this.previouslySavedValues = [];
+        this.saveButtonElement = document.getElementById(saveBtnId);        
 
-        if (this.saveDisplayElement) {
-            document.getElementById(saveBtnId).addEventListener('click',
-                () => this.displaySaveCount(this.counter.get())); // Use the accessor method
+        if (!(this.saveDisplayElement && this.saveButtonElement)) {
+            console.log("element not found!");
+            return;
         }
+
+        this.counter = counter;
+        this.previouslySavedValuesQueue = new BondedQueue(3);
+        
+        this.saveButtonElement.addEventListener('click',
+            () => this.displaySaveCount(this.counter.get()));
     }
 
     displaySaveCount(count) {
         this.previouslySavedValuesQueue.enqueue(count);
-        
         this.saveDisplayElement.innerText = this.previouslySavedValuesQueue.data;
+
+        this.fireSaveEvent();
+    }
+    
+    fireSaveEvent(){
+        this.eventTarget = this.saveButtonElement;
+        let event = new Event("count-saved");
+        this.eventTarget.dispatchEvent(event);
     }
 }
