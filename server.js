@@ -1,42 +1,34 @@
-﻿// Require the http module
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+﻿// Import the necessary modules
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// This code is creating an HTTP server. 
-// The http.createServer() method returns a new instance of 'http.Server'. 
-// This method takes a callback function that is called every time 
-// a client sends a request to the server. 
-// The callback function has two parameters: request and response.
+// Mimic __dirname
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 const server = http.createServer((request, response) => {
-    
-    // Construct the file path
+
     const filePath = path.join(__dirname, request.url === '/' ? '/index.html' : request.url);
     const extName = String(path.extname(filePath)).toLowerCase();
 
-    // Map file extensions to MIME types
     const mimeTypes = {
         '.html': 'text/html',
         '.js': 'text/javascript',
-        '.css': 'text/css',
-        // Add more MIME types depending on your need
+        '.css': 'text/css'
     };
 
     const contentType = mimeTypes[extName] || 'application/octet-stream';
 
     fs.readFile(filePath, (error, content) => {
         if (!error) {
-            // If file exists, serve it
             response.writeHead(200, {'Content-Type': contentType});
             response.end(content, 'utf-8');
         } else {
-            // Error handling
             if (error.code === 'ENOENT') {
-                // Handle file not found
                 response.writeHead(404);
                 response.end(`Page not found: ${request.url}`);
             } else {
-                // Handle server error
                 response.writeHead(500);
                 response.end(`Server error: ${error.code}`);
             }
@@ -44,13 +36,12 @@ const server = http.createServer((request, response) => {
     });
 });
 
-// Listen on port 8080
 server.listen(8080, function(error)  {
     if(error){
         console.log("Something went wrong: ", error);
         return;
     }
-    
+
     console.log('Server running at http://localhost:8080/');
 });
 
