@@ -1,6 +1,5 @@
 // noinspection SpellCheckingInspection
 
-//import {Saver} from "./saver.js";
 import {Counter} from "./counter.js";
 import {Welcomer} from "./welcomer.js";
 
