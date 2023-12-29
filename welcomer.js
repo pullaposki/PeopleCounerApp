@@ -1,6 +1,11 @@
-﻿export class Welcomer{
-    constructor(welcomeElementId) {
-        this.welcomeElement = document.getElementById(welcomeElementId);
+﻿import {ElementValidator} from "./element-validator.js";
+
+export class Welcomer{
+    constructor(welcomeElement) {
+        ElementValidator.validateElements(welcomeElement);
+        
+        this.welcomeElement = welcomeElement;
+        
         this.name = "Janne Soikkeli";
         this.greeting = "Welcome";    
         

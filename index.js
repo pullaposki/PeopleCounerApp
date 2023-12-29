@@ -4,12 +4,8 @@
 import {Counter} from "./counter.js";
 import {Welcomer} from "./welcomer.js";
 
-let counter = instantiateCounter();
-
-new Welcomer("welcome-el");
-//new Counter(document.getElementById("increment-btn"), "save-btn", "count-el", "save-el");
-//const counter = new Counter("count-el", "increment-btn", "save-btn");
-//const saver = new Saver("save-el", "save-btn", counter); // Pass counter instance to Saver constructor
+instantiateCounter();
+instantiateWelcomer()
 
 function instantiateCounter(){
     let incrementButton = document.getElementById('increment-btn');
@@ -17,5 +13,11 @@ function instantiateCounter(){
     let countElement = document.getElementById('count-el');
     let saveDisplayElement = document.getElementById('save-el');
 
-    return new Counter(incrementButton, saveButton, countElement, saveDisplayElement);
+    new Counter(incrementButton, saveButton, countElement, saveDisplayElement);
+}
+
+function instantiateWelcomer(welcomeElementId){
+    let welcomeElement = document.getElementById("welcome-el")
+    
+    new Welcomer(welcomeElement);
 }
