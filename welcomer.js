@@ -5,10 +5,9 @@
         this.greeting = "Welcome";    
         
         this.displayWelcome();
-    }
-    
+    }    
 
     displayWelcome(){
-        this.welcomeElement.innerText = this.greeting + " " + this.name;
+        this.welcomeElement.innerText = this.greeting + " " + this.name + "✌️";
     }
 }
