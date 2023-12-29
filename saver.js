@@ -1,15 +1,15 @@
 ﻿export class Saver {
-    constructor(saveDisplayElementId, saveBtnId, counter) { // passing counter instance as parameter
+    constructor(saveDisplayElementId, saveBtnId, counter) {
         this.saveDisplayElement = document.getElementById(saveDisplayElementId);
-        this.counter = counter; // saving counter instance to a property
+        this.counter = counter;
 
         if (this.saveDisplayElement) {
             document.getElementById(saveBtnId).addEventListener('click',
-                () => this.displaySaveCount(this.counter.currentCount)); // use counter.count as parameter
+                () => this.displaySaveCount(this.counter.get())); // Use the accessor method
         }
     }
 
-    displaySaveCount(currentCount) {
-        this.saveDisplayElement.innerText = currentCount;
+    displaySaveCount(count) {
+        this.saveDisplayElement.innerText = count;
     }
 }
