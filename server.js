@@ -1,4 +1,6 @@
-﻿// Import the necessary modules
+﻿// Import the necessary modules: The script imports the necessary modules to create and run an HTTP server, 
+// handle file system operations, join file paths, etc. The 'http', 'fs', 'path', 'url' modules are 
+// Node.js built-in modules.
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
@@ -9,17 +11,27 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const server = http.createServer((request, response) => {
 
+    // For each request received, the server sets up the filePath, extension name & mimeType.
     const filePath = path.join(__dirname, request.url === '/' ? '/index.html' : request.url);
-    const extName = String(path.extname(filePath)).toLowerCase();
-
+    const extensionName = String(path.extname(filePath)).toLowerCase();
+    
+    // mimeTypes is an object that maps file extensions to their corresponding MIME types. 
+    // MIME types define the nature and format of data as type/subtype. 
+    // For example, 'text/html' represents HTML documents, 'text/javascript' 
+    // represents JavaScript files, and 'text/css' represents cascading style sheet files.
     const mimeTypes = {
         '.html': 'text/html',
         '.js': 'text/javascript',
         '.css': 'text/css'
     };
-
-    const contentType = mimeTypes[extName] || 'application/octet-stream';
-
+    
+    // If the file extension is not in the mimeTypes map 
+    // (for example, it could be a different type of file that you didn't define a MIME type for), 
+    // it defaults to 'application/octet-stream'.
+    const contentType = mimeTypes[extensionName] || 'application/octet-stream';
+    
+    // The readFile() method is asynchronous and takes in a callback function which is executed once the file has been 
+    // read. The callback function takes two arguments: an error object and the actual content of the file.
     fs.readFile(filePath, (error, content) => {
         if (!error) {
             response.writeHead(200, {'Content-Type': contentType});
